@@ -1,0 +1,14 @@
+{
+  "name"    : "your-app",
+  "version" : "0.1.0",
+  "main"    : "main.js",
+   "author": {
+    "name": "Zhou Keke"
+  },
+  "description": "The playduino socket.io server for connecting arduino board by johnny-five",
+  "dependencies": {
+    "johnny-five": "latest",
+    "path": "latest",
+    "socket.io": "latest"
+  }
+}

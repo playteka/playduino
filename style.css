@@ -1,0 +1,18 @@
+body {
+    height: 100%;
+    margin: 0;
+}
+
+table {
+      height: 100%;
+      width: 100%;
+      border: 1px solid #bbb;
+}
+
+#textarea_console {
+    height: 400px;
+    width: 99%;
+    border: 1px solid #ccc;
+    resize: none;
+    overflow: auto;
+}

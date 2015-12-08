@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>PlayDuino</title>          
+
+    <!-- Custom styles for this template -->
+    <link href="style.css" rel="stylesheet">
+    
+    <script type="text/javascript">
+    
+                              var child_process = require('child_process');
+                              //spawn a new process and run the program with debug
+                              var child = child_process.spawn(require('path').join(__dirname,'node'), 
+                                                         [require('path').join(__dirname,"playteka.js"), '--debug' ],
+                                                         { stdio: ['pipe', 'pipe','pipe','ipc'] });
+                                                         
+                             //build the inter process communication channel
+                             child.stdout.on('data', function (data) {
+                                             //convert to string
+                                             var msg = data.toString();
+                                             msg = '['+child.pid+']' + '[stdout]:' + msg;
+                                             console.log(msg);
+                                             
+                                             document.getElementById('textarea_console').value += msg;
+                                             document.getElementById('textarea_console').scrollTop = document.getElementById('textarea_console').scrollHeight;
+                                             });
+                             
+                             child.stderr.on('data', function (data) {
+                                             //convert to string
+                                             var msg = data.toString();
+                                             msg = '['+child.pid+']' + '[stderr]:' + msg;
+                                             console.log(msg);
+                                             
+                                             //send to client
+                                             document.getElementById('textarea_console').value += msg;
+                                             document.getElementById('textarea_console').scrollTop = document.getElementById('textarea_console').scrollHeight;
+                                             });
+                             
+                             child.on('exit', function (code) {
+                                      var msg = '['+child.pid+']' + '[sysout]:' + 'program exits!\n';
+                                      console.log(msg);
+
+                                      //send to client
+                                             document.getElementById('textarea_console').value += msg;
+                                             document.getElementById('textarea_console').scrollTop = document.getElementById('textarea_console').scrollHeight;
+                                      });          
+    
+    
+    </script>
+    
+  </head>
+  <body>
+  <table> 
+  <tr> <td>
+  <h1>Playduino</h1>
+  <p>         
+    Node <script>document.write(process.versions.node)</script>,
+    Chrome <script>document.write(process.versions.chrome)</script>,
+    Electron <script>document.write(process.versions.electron)</script>,
+  </p>
+  </td></tr>
+  
+  <tr valign="top"><td align='center'>
+        <textarea id="textarea_console" readonly></textarea>
+  </td></tr>
+  </table>
+
+                            
+  </body>
+</html>
